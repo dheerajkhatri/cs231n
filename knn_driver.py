@@ -17,9 +17,9 @@ def unpickle(file):
     fo.close()
     return dict
     
-if __name__ == "__main__":
+if __name__ == "__main__": #expects 3 arguments => traindata, testdata, #neighbours to consider
     
-    #ie: python knn.py cifar-10-batches-py\data_batch_1 cifar-10-batches-py\test_batch 
+    #ie: python knn.py data\cifar10\data_batch_1 data\cifar10\test_batch 3 
     
     print 'Loading Train data'
     #load train data
@@ -37,6 +37,7 @@ if __name__ == "__main__":
     dict  = unpickle(sys.argv[2])    
     Xte = dict['data']
     Yte = dict['labels']
+        
     
     print 'Testing data shape ', Xtr.shape
     print 'Testing label shape ', Xtr.shape
@@ -47,9 +48,10 @@ if __name__ == "__main__":
      
     nn = knn.NearestNeighbor() # create a Nearest Neighbor classifier class
     print 'Training Modle'
-    nn.train(Xtr_rows, Ytr,3) # train the classifier on the training images and labels
+    nn.train(Xtr_rows, Ytr, sys.argv[3]) # train the classifier on the training images and labels
     print 'Testing Model'
-    nn.predict(Xte_rows) # predict labels on the test images
-    # and now print the classification accuracy, which is the average number
-    # of examples that are correctly predicted (i.e. label matches)
-    #print 'accuracy: %f' % ( np.mean(Yte_predict == Yte) )                                                                                                         
+    Yte_predict = nn.predict(Xte_rows) # predict labels on the test images
+    
+    # # and now print the classification accuracy, which is the average number
+    # # of examples that are correctly predicted (i.e. label matches)
+    print 'accuracy: %f' % ( np.mean(Yte_predict == Yte) )                                                                                                         
